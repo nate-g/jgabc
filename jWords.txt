@@ -376,7 +376,6 @@ janthinárum
 janum
 januárum
 japheth
-japhía
 jara
 jare
 jared
@@ -395,7 +394,7 @@ jasóne
 jasónem
 jasóni
 jasónis
-jathánael
+jathánaël
 jaus
 javan
 jazer
@@ -558,13 +557,13 @@ jezerítes
 jezoníam
 jezonías
 jezra
-jezraelítes
-jezraelítide
 jezrahelítes
 jezrahelítide
 jezrahelítis
 jezrahelítæ
 jezraéli
+jezraëlítes
+jezraëlítide
 jezraía
 jezátha
 jeábarim
@@ -578,8 +577,6 @@ jobanía
 jocántem
 jod
 jodaíæ
-joed
-joel
 jogli
 joha
 johel
@@ -623,6 +620,8 @@ joánni
 joánnis
 joéla
 joézer
+joëd
+joël
 jubal
 jube
 jubens
@@ -715,7 +714,6 @@ judicátum
 judicátur
 judicátus
 judicáverint
-judicáverit
 judicávero
 judicávi
 judicávimus
@@ -987,7 +985,7 @@ jámniæ
 jámuel
 jánai
 jánitor
-jánoe
+jánoë
 jánthinas
 jánthinis
 jánthino
@@ -1005,12 +1003,11 @@ jásiel
 jáspide
 jáspidem
 jáspidis
-jáspis
 jáziel
 jébaar
 jébahar
 jéblaam
-jébnael
+jébnaël
 jébneel
 jécerit
 jécmaam
@@ -1033,7 +1030,7 @@ jéhuel
 jémai
 jémini
 jéphone
-jéphthael
+jéphthaël
 jéraa
 jérala
 jércaam
@@ -1065,8 +1062,8 @@ jéthrai
 jézabad
 jézabel
 jézlia
-jézrael
 jézrahel
+jézraël
 jóachaz
 jóachim
 jóachin
@@ -1088,6 +1085,7 @@ jójadæ
 jójarib
 jónadab
 jónatha
+jónatham
 jónathan
 jónathas
 jónathæ
@@ -1098,7 +1096,6 @@ jósachar
 jósaphat
 jósedec
 jósue
-jóta
 józabad
 józabed
 júbeam
@@ -1171,6 +1168,7 @@ mejárcon
 márajoth
 mérajoth
 najoth
+nábajoth
 objectióne
 objiciébant
 objiciéntes

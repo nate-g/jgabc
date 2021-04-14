@@ -151,7 +151,7 @@ var massOrdinary = [{
   gloria:{id: 7996,name: "Gloria M. R. I"},
   credo:{id: 7997,name: "Credo M. R. I"},
   sanctus:{id: 7998,name: "Sanctus M. R. I"},
-  agnus:{id: 7999,name: "Agnus M. R. I"},
+  agnus:{id: 7937,name: "Agnus M. R. I"},
   ite:{id: 8000,name: "Ite M. R. I"}
 },{season:"Missa pro defunctis",
   kyrie:{id: 541,name: "Kyrie eleison (in Miss. def.)"},
@@ -164,7 +164,8 @@ var ordinaryAdLib = {
 asperges:[{id: 497,name: "Asperges me"},
   {id: 905,name: "Asperges me (ad lib.) I."},
   {id: 142,name: "Asperges me (ad lib.) II."},
-  {id: 958,name: "Vidi aquam"}],
+  {id: 958,name: "Vidi aquam"},
+  {id: 10298,name: "Vidi aquam (ad lib.)"}],
 kyrie:[{id: 2993,name: "Kyrie (ad lib.) I. - Clemens Rector"},
   {id: 2021,name: "Kyrie (ad lib.) II. - Summe Deus"},
   {id: 2237,name: "Kyrie (ad lib.) III. - Rector cosmi pie"},

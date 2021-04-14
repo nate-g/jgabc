@@ -1,7 +1,7 @@
 var regexGabc = /(((?:([`,;:]\d*)|([cf]b?[1-4]))+)|(\S+))(?:\s+|$)/ig;
 var regexVowel = /(?:[cgq]u|[iy])?([aeiouyáéëíóúýǽæœ]+)/i;
 var regexLatin = /((?:<\w+>)*)(((?:(?:(\s+)|)(?:(?:i(?!i)|(?:n[cg]|q)u)(?=[aeiouyáéëíóúýǽœ́æœ])|[bcdfghjklmnprstvwxz]*)([aá]u|[ao][eé]?|[eiuyáéëíóúýǽæœ]\u0301?)(?:(?:[\wáéíóúýǽæœ]\u0301?)*(?=-)|(?=(?:n[cg]u|sc|[sc][tp]r?|gn|ps)[aeiouyáéëíóúýǽæœ]\u0301?|[bcdgptf][lrh][\wáéíóúýǽæœ]\u0301?)|(?:[bcdfghjklmnpqrstvwxz]+(?=$|[^\wáëéíóúýǽæœ])|[bcdfghjklmnpqrstvwxz](?=[bcdfghjklmnpqrstvwxz]+))?)))(?:([\*-])|((?:[^\w\sáëéíóúýǽæœ\u0301])*(?:\s[:;†\^\*"«»‘’“”„‟‹›‛])*\.?(?=\s|$))?)(?=(\s*|$)))((?:<\/\w+>)*)/gi
-var regexWords = /((?:<\w+>)*)([^a-z\xDF-\xFF\u0100-\u024f\(\)\<!]*\s*"*(?=[a-z\xDF-\xFF\u0100-\u024f(<!]))(!(?:<\w+>.*?<\/\w+>|\S+)|([a-z\xDF-\xFF\u0100-\u024f’'*]*)(?:\(([a-z\xDF-\xFF\u0100-\u024f’'*]+)\)([a-z\xDF-\xFF\u0100-\u024f’'*]*))?)(=?)((?:\s*[-"'“”‘’«»„:;,.\)¿\?¡])*)(\s+[†*])?((?:<\/\w+>\s*)*)/gi;
+var regexWords = /((?:<\w+>)*)([^a-z\xDF-\xFF\u0100-\u024f\(\)\<!]*\s*"*(?=[a-z\xDF-\xFF\u0100-\u024f(<!]))(!(?:<\w+>.*?<\/\w+>|\S+)|([a-z\xDF-\xFF\u0100-\u024f’'*]*)(?:\(([a-z\xDF-\xFF\u0100-\u024f’'*]+)\)([a-z\xDF-\xFF\u0100-\u024f’'*]*))?)(=?)((?:\s*[-"'“”‘’«»„:;,.\)¿\?¡!])*)(\s+[†*])?((?:<\/\w+>\s*)*)/gi;
 var regexQuoteTernary = /([?:])([^?:]*)(?=$|:)/g;
 var regexAccent = /[áéíóúýǽ\u0301]/i;
 var regexToneGabc = /(')?(([^\sr]+)(r)?)(?=$|\s)/gi;
@@ -121,7 +121,7 @@ var o_g_tones =
                   solemn:"e fe eh hr hg hi i 'hi hr h.",
                   termination:"hr g 'e fr f."
                  },
-             '2. monasticum':{clef:"f3",
+             '2. monasticus':{clef:"f3",
                   mediant:"e f hr 'i hr h.",
                   solemn:"e fe eh hr hg hi i 'hi hr h.",
                   termination:"hr g er 'ef f."
@@ -226,6 +226,10 @@ var o_g_tones =
              'in directum': {clef:"c3",
                       mediant:"e f hr i 'i fr f.",
                       termination:"hr e f 'g fr f."
+                    },
+             'in dir. monasticus': {clef:"c3",
+                      mediant:"hr g f 'h hr h.",
+                      termination:"hr h."
                     },
              // 'in directum (alt.)': {clef:"c4",
              //          mediant:"t[0].word.length==1?f gh hr g h.:f gh hr 'g fr f.",
@@ -480,7 +484,7 @@ var Syl = (function(){
             if(syls.length == 2) {
               syls[0].accent = true;
             } else if(syls.length > 2) {
-              syls = syls.filter(function(syl) { return /[AEIOUYÆŒæœ]/.test(syl.syl); });
+              syls = syls.slice(-3,-1).filter(function(syl) { return /[AEIOUYÆŒæœ]/.test(syl.syl); });
               if(syls.length === 1) syls[0].accent = true;
             }
           }
@@ -512,7 +516,7 @@ var Syl = (function(){
     },
     updateWords:function(){
       if(this.queue.length>0){
-        $.getScript("//apps.illuminarepublications.com/gregorio/syl.php?txt="+this.queue.join('+'));
+        $.getScript("//editor.sourceandsummit.com/legacy/syl.php?txt="+this.queue.join('+'));
         this.queue=[];
       } else {
         intUpdate=setTimeout(function(){Syl.updateWords();},5000);

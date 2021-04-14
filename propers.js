@@ -21,14 +21,14 @@ pageBreaks=(localStorage.pageBreaks || "").split(','),
 // Taken from the Chants Abrégés (http://media.musicasacra.com/pdf/chantsabreges.pdf) [They are found throughout the book, wherever Alleluia verses are found]:
   alleluiaChantsAbreges=[
     undefined,
-    "(c4)Al(c)le(d)lu(ixed/hi)ia.(hvhvGE//fd.) (::)",
-    "(f3)Al(ef~)le(f)lu(hf/fe~)ia.(egf.) (::)",
-    "(c4)Al(e/ef)le(dg)lu(gih___!iwj)ia.(ijh'___/ig/ge.) (::)",
-    "(c4)Al(e//ed~)le(e/ghe/fe)lu(de~)ia.(e.) (::)",
-    "(c3)Al(d/f'h~)le(hf__)lu(fh'/ih~)ia.(i.////hiHF'/fd.) (::)",
-    "(c4)Al(f/fg)le(gf)lu(ixf!gi//hig//g)ia.(gf..) (::)",
-    "(c3)Al(ef)le(e)lu(e!f'h/ihi)ia.(ie..) (::)",
-    "(c4)Al(g)le(hvGF/ghg)lu(fh!jvIG'h)ia.(g.) (::)"
+    "(c4)AL(c)le(d)lú(ixed/hi)ia.(hvhvGE'/fd.) (::)",
+    "(f3)AL(ef~)le(f)lú(hf/fe~)ia.(egf.) (::)",
+    "(c4)AL(e/ef)le(dg)lú(gih___!iwj)ia.(ijh'___/ig/ge.) (::)",
+    "(c4)AL(e//ed~)le(e/ghe/fe)lú(de~)ia.(e.) (::)",
+    "(c3)AL(d/f'h~)le(h_f)lú(fh'/ih~)ia.(iv.hiHF'/fd.) (::)",
+    "(c4)AL(f/fg)le(gf)lú(ixf!gi/hig/g)ia.(gf..) (::)",
+    "(c3)AL(ef)le(e)lú(e!f'h/ihi)ia.(ie..) (::)",
+    "(c4)AL(g)le(hvGF/ghg)lú(fh!jvIG'h)ia.(g.) (::)"
   ],
   isNovus = false,
   novusOption={},
@@ -278,7 +278,7 @@ $(function(){
     '7':'a',
     '8':'G'
   }
-  var regexGabcGloriaPatri = /Gl[oó]\([^)a-mA-M]*([a-m])[^)]*\)ri\([^)]+\)a\([^)]+\)\s+P[aá]\([^)]+\)tri\.?\([^)]+\)\s*\(::\)\s*s?[aeæ]+\([^)]+\)\s*c?u\([^)]+\)\s*l?[oó]\([^)]+\)\s*r?um?\.?\([^)]+\)\s*[aá]\(([^)]+)\)\s*m?en?\.?\(([^)]+)\)/i;
+  var regexGabcGloriaPatri = /Gl[oó]\([^)a-mA-M]*([a-m])[^)]*\)ri\([^)]+\)a\([^)]+\)\s+P[aá]\([^)]+\)tri\.?\([^)]+\)\s*\(::\)\s*(?:<eu>)?s?[aeæ]+\([^)]+\)\s*c?u\([^)]+\)\s*l?[oó]\([^)]+\)\s*r?um?\.?\([^)]+\)\s*[aá]\(([^)]+)\)\s*m?en?\.?(?:<\/eu>)?\(([^)]+)\)/i;
   var regexAmenTones = /<i>[^<]+<\/i>\s*[^(]+\([^)a-m]*([a-m])[^)]*\)[^@]*\*\(:\)\s+.*\(([^)]+)\)[^(]+\(([^)]+)\)\s+\(::\)/i;
   var regexGabcGloriaPatriEtFilio = /Gl[oó]\([^)]+\)ri\([^)]+\)a\([^)]+\)\s+P[aá]\([^)]+\)tri[.,]?\([^)]+\)[^`]*\(::\)/i;
   var regexGabcClef = /\([^)]*([cf]b?[1-4])/;
@@ -515,7 +515,8 @@ $(function(){
           var lines = sel[part].lines = plaintext.split(/\n/).map(function(line) {
             return reduceStringArrayBy(line.split(reFullOrHalfBarsOrFullStops),3);
           });
-          if(!sel[part].pattern) {
+          var ptn = sel[part].pattern;
+          if(!(ptn && ptn.length && ptn[0].length)) {
             sel[part].pattern = deducePattern(plaintext, lines, !truePart.match(/alleluia|graduale|tractus/));
           }
           text = sel[part].text = versifyByPattern(lines, sel[part].pattern);
@@ -548,7 +549,6 @@ $(function(){
         }
         if(/^(graduale|tractus)/.test(truePart)) {
           $style.append($('<option>').attr('value','psalm-tone1').text('Psalm Toned Verse' + (truePart == 'tractus'? 's':'')));
-          styleVal = $style.val();
           if(/^psalm-tone[^1]/.test(styleVal)) {
             styleVal = 'psalm-tone';
           }
@@ -736,6 +736,15 @@ $(function(){
           $.extend(true, selPropers, proprium[selDay]);
           delete selPropers.ref;
         }
+      }
+    }
+    if(selPropers && selPropers.ref) selPropers = proprium[selPropers.ref];
+    if(selPropers && /^(?:Adv|Quad|[765]a)/.test(selDay) && !('gloria' in selPropers)) {
+      selPropers.gloria = false;
+    }
+    if(selPropers) {
+      selPropers = $.extend(true,{},selPropers);
+      if(selTempus && (selDay != ref)) {
         var regex;
         if(selTempus == 'Quad') {
           delete selPropers.alID;
@@ -757,13 +766,6 @@ $(function(){
       if(selPropers.alID && selPropers.alID.length == 1) {
         selPropers.alID = selPropers.alID.pop();
       }
-    }
-    if(selPropers && selPropers.ref) selPropers = proprium[selPropers.ref];
-    if(selPropers && /^(?:Adv|Quad|[765]a)/.test(selDay) && !('gloria' in selPropers)) {
-      selPropers.gloria = false;
-    }
-    if(selPropers) {
-      selPropers = $.extend(true,{},selPropers);
       gregorianBooksPage = (gregorianBooksPage && selPropers.gbid)? (gregorianBooksPage + "#" + selPropers.gbid) : "";
       for(var k in partKey) {
         var key = partKey[k] + 'ID';
@@ -1042,7 +1044,7 @@ $(function(){
           })+"</select>").change(function() {
             var val = $(this).val();
             sel[part].id = val;
-            if (/^([VI]+|[1-8])(\s*[a-gA-G][1-9]?\*?)?/.test(optionName[val])) {
+            if (/^([VI]+|[1-8])(\s*[a-gA-G][1-9]?\*?)?(?:\s|$)/.test(optionName[val])) {
               sel[part].annotationArray = ['Ant.',optionName[val]];
             }
             downloadThisChant();
@@ -1289,7 +1291,7 @@ $(function(){
     var gabcAfterAsterisks = {};
     var justAppliedAsteriskCallback = false;
     while(match) {
-      if(storeMap && newWord && match[rog.gabc] && !/^[,;:`]+$/.test(match[rog.gabc]) && match[rog.syl] && /[a-zœæǽáéíóúýäëïöüÿāēīōūȳăĕĭŏŭ]/i.test(match[rog.syl])) {
+      if(storeMap && newWord && match[rog.gabc] && !/^[,;:``]+$/.test(match[rog.gabc]) && match[rog.syl] && /[a-zœæǽáéíóúýäëïöüÿāēīōūȳăĕĭŏŭ]/i.test(match[rog.syl])) {
         dictionary.push(match.index);
         newWord = false
       }
@@ -1356,12 +1358,15 @@ $(function(){
         }
       }
       if(ignoreSyllablesOnDivisiones) {
-        // for matching the bars, we have to make sure they are not between square brackets, as in the notation for a brace above the system.
-        barMatch = match[rog.gabc].match(/(?:^|])[^[\]:;]*(:+|;)/)
-        barMatch = barMatch && barMatch[1];
-        if(barMatch=='::') text += '~';
-        else if(barMatch==':') text += ' % ';
-        else if(barMatch==';') text += ' | ';
+        // first, we have to make sure that that there are no notes attached to the syllable:
+        if(!match[rog.gabc].match(/[A-Ma-m](?![1-4+])/)) {
+          // for matching the bars, we have to make sure they are not between square brackets, as in the notation for a brace above the system.
+          barMatch = match[rog.gabc].match(/(?:^|])[^[\]:;]*(:+|;)/)
+          barMatch = barMatch && barMatch[1];
+          if(barMatch=='::') text += '~';
+          else if(barMatch==':') text += ' % ';
+          else if(barMatch==';') text += ' | ';
+        }
       }
       if(syl && (!ignoreSyllablesOnDivisiones || !match[rog.gabc].match(/^(?:(?:[cf]b?[1-4])|[:;,\s])*$/) || syl.match(/<i>(?:Ps\.?|T\.?\s*P\.?\s*|i+j?\.?)<\/i>/))){
         var sylR=syl.replace(/<i>([aeiouy])<\/i>/ig,'($1)');
@@ -1886,7 +1891,7 @@ $(function(){
     return gTertium;
   }
 
-  var applyAmenTones = function(gabc, gAmenTones, gMediant) {
+  var applyAmenTones = function(gabc, gAmenTones, gMediant, clef) {
     if(gAmenTones){
       var originalGabc = gAmenTones.input || '',
           originalClef = originalGabc.slice(getHeaderLen(originalGabc)).match(regexGabcClef);
@@ -1944,7 +1949,7 @@ $(function(){
       format: bi_formats.gabc,
       flexEqualsTenor: true
     });
-    temp = applyAmenTones(temp, gAmenTones, gMediant);
+    temp = applyAmenTones(temp, gAmenTones, gMediant, clef);
     return applyLiquescents(result + temp + " (::)\n");
   }
   
@@ -2128,9 +2133,11 @@ $(function(){
           $('#selStyleGraduale').change();
         }
         if(sel[part].style=='psalm-tone-sal') {
-          gabc = alleluiaChantsAbreges[mode];
+          gabc = "mode: " + mode + ";\n%%\n" + alleluiaChantsAbreges[mode];
+          originalClef = gabc.match(regexGabcClef);
+          if(originalClef) originalClef = originalClef[1];
           if(text.split('\n')[0].match(/ij|bis/)) {
-            gabc = gabc.replace(')ia.(',')ia. <i>ij.</i>(');
+            gabc = gabc.replace(')ia.(',')i{a}. <i>ij.</i>(');
           }
         } else {
           $('[part='+part+']').addClass('full-alleluia');
@@ -2149,9 +2156,9 @@ $(function(){
       gabc = header;
       if(sel[part].style == 'psalm-tone1') {
         // the first verse is to be full tone.
-        var firstVerse = /^([\s\S]*?\S*)(\([^)]*::[^)]*\))/g.exec(fullGabc);
+        var firstVerse = /^([\s\S]*?\S*)(\([^)]*::[^)]*\))(?:\s+([^(]+(?:\(\))?\s))?/g.exec(fullGabc);
         if(firstVerse) {
-          firstVerse = firstVerse[1] + '(::) ';
+          firstVerse = firstVerse[1] + '(::) ' + (firstVerse[3] || '')
           gabc += firstVerse;
           useOriginalClef = true;
           lines.shift();  // shift away the first verse, since we are using the full tone for it.
@@ -2209,10 +2216,16 @@ $(function(){
       }
 
       var line = splitLine(lines[i], introitTone? 3 : 2);
+      if(introitTone && line.length == 3 && Math.min.apply(null,line.slice(0,2).mapSyllableCounts()) < 8) {
+        // if one of the first two segments has less than 8 syllables, use a pause instead:
+        line = [line[0] + ' † ' + line[1], line[2]];
+      }
       var italicNote = line[0].match(/^\s*<i>[^<]+<\/i>\s*/);
       if(italicNote) {
         italicNote = italicNote[0];
         line[0] = line[0].slice(italicNote.length);
+      } else if(isAl && firstVerse) {
+        italicNote = '<sp>V/</sp> ';
       }
       // special case for gloria patri.
       if(part=='introitus' && removeDiacritics(line[0]).match(/^\s*gloria patri/i) &&
@@ -2246,7 +2259,7 @@ $(function(){
             favor: 'intonation',
             flexEqualsTenor: introitTone
           }) + bi_formats.gabc.nbsp + '(:) ' +
-          (italicNote||'') + applyPsalmTone({
+          applyPsalmTone({
             text: left[1].trim(),
             gabc: gTertium,
             clef: clef,
@@ -2281,7 +2294,7 @@ $(function(){
             flexEqualsTenor: introitTone
           });
         }
-        gabc += (line.length == 1? "" : bi_formats.gabc.nbsp + gabcStar + "(:) " +
+        gabc += (line.length == 1? "" : bi_formats.gabc.nbsp + "*(:) " +
           applyPsalmTone({
             text: line[1].trim(),
             gabc: gTermination,
@@ -2410,7 +2423,8 @@ $(function(){
       gabc = gabc.replace(/(?:\(::\)\s+)?<i>\s*T\.\s*P\.\s*<\/i>(?:\(::\))?/,'(:)');
     } else {
       gabc = gabc.replace(/\(::\)\s+<i>\s*T\.\s*P\.\s*<\/i>[\s\S]*?(?=\(::\))/,'')
-        .replace(/<i>\s*T\.\s*P\.\s*<\/i>\(::\)[\s\S]*?(?=[^\s(]*\(::\))/,'');
+        .replace(/<i>\s*T\.\s*P\.\s*<\/i>\(::\)[\s\S]*?(?=[^\s(]*\(::\))/,'')
+        .replace(/\s+<i>\s*T\.\s*P\.\s*<\/i>[\s\S]*?(?=\(::\))/,' ');
     }
     return gabc;
   }
@@ -2439,10 +2453,10 @@ $(function(){
       })
 //      .replace(/\)(\s+)(\d+\.?|[*†])(\s)/g,')$1$2()$3') // add empty parentheses after verse numbers, asterisks, and daggers
       // .replace(/(\s)(<i>[^<()]+<\/i>)\(\)/g,'$1^$2^()') // make all italic text with empty parentheses red
+      .replace(/\\emph{([^(}]+)\}/g,'_$1_') //used sometimes in <alt> text
       .replace(/(v[A-Z]__[A-Z])([^_])/g,'$1_3$2') // episemata over puncta inclinata don't go quite over far enough in a few chants
       .replace(/([^)]\s+)([*†]|<i>i+j\.<\/i>)\(/g,'$1^$2^(') // make all asterisks and daggers red
-      .replace(/\^?(<i>[^(|]*? [^(|]*?<\/i>)\^?([^(|]*)/g,'{}^$1$2^') // make any italic text containing a space red
-      .replace(/(\{[^}(]*}[^{(]*)\{([^}(]*)}/g,'$1$2') // correction for above in case there were already braces indicating where to center the neume
+      .replace(/\^?(<i>[^(|]*? [^(|]*?<\/i>)\^?([^(|]*)/g,'^$1^$2') // make any italic text containing a space red
       .replace(/\*(\([:;,]+\))\s+(<i>i+j\.<\/i>)\(/g,'{*} $2$1 (')
       .replace(/(\s+)({?<i>i+j\.<\/i>}?)\(/g,'$1^$2^(') // make any italicized ij. syllables red
       .replace(/\[([^\]\s-áéíóú]+)\](?=\()/g,'\|$1 ')  // Translations are used as additional lyrics
@@ -2453,7 +2467,11 @@ $(function(){
         .replace(/(?:{})?<i>\(([^)]+)\)<\/i>/g,'_{}$1_') // There is no way to escape an open parenthesis in Exsurge.
       .replace(/<\/?i>/g,'_')
       .replace(/(\)\s+(?:\([^)]*\))*)(\s*[^(^|]+)(?=\(\))/g,'$1^$2^') // make all text with empty parentheses red
-        .replace(/<v>[^<]+<\/v>/g,'');  // not currently supported by Exsurge
+      .replace(/\\hspace{[^}]*}/g,'')
+      .replace(/(?:\(Z\)\s*)?<alt>(.*?\\emph.*?)<\/alt>/gi, '^_$1_^() (Z)\n')
+      .replace(/<\/?eu>|\[[ou]ll:[01]?[{}][01]?\]/ig,'') // <eu> tags and oll ledger line indications
+      .replace(/(\s\^?\*\^?)(?=\s*[^(])/g,' *()') // currently * before a syllable causes the syllable to be bolded.  (TODO: this should be fixed in Exsurge)
+      .replace(/(\))\s*\(\)/g,")"); // replace any worthless empty parentheses.
     var gabcHeader = getHeader(gabc);
     if(gabcHeader.original) {
       gabc = gabc.slice(gabcHeader.original.length);
@@ -2803,12 +2821,14 @@ $(function(){
   // Put EmbSatSept and ChristusRex in the proper order
   Object.keys(outoforder).forEach(function(key) {
     var toPlace = outoforder[key];
-    var lastDate = moment('12-31','MM-DD');
+    var year = toPlace.date.year();
+    var lastDate = moment('12-31','MM-DD').year(year);
     var i = 1;
     while(i < sundayKeys.length) {
-      var sunday = sundayKeys[i];
-      var next = sundayKeys[++i];
-      if(!next || (sunday.date.isBefore(toPlace.date) && next.date.isSameOrAfter(toPlace.date))) {
+      var sunday = dateForSundayKey(sundayKeys[i].key, dateCache[year]);
+      var nextSunday = sundayKeys[++i];
+      var next = nextSunday && dateForSundayKey(nextSunday.key, dateCache[year]);
+      if(!next || (sunday.isBefore(toPlace.date) && next.isSameOrAfter(toPlace.date))) {
         sundayKeys.splice(i, 0, toPlace);
         break;
       }
@@ -3100,8 +3120,8 @@ $(function(){
       }
       gabc = header + processSolesmes(gabc.slice(header.original.length).
         replace(/\^/g,''). // get rid of exsurge specific ^
-        replace(/([^()\s]\s+(?:[^()\s<>]|<[^>]+>)+)([aeiouyæœáéíóýǽ]+)([^()\s<>]*?\()/gi,'$1{$2}$3'). // mark vowel in certain cases
-        replace(/(['_])\d/g,"$1"). // version of Gregorio on illuminarepublications.com currently doesn't support digit after ' or _
+        replace(/([^[\]()\s]\s+(?:[^[\]()\s<>]|<[^>]+>)+)([aeiouyæœáéíóýǽ]+)([^[\]()\s<>]*?\()/gi,'$1{$2}$3'). // mark vowel in certain cases
+        // replace(/(['_.])\d/g,"$1"). // version of Gregorio on sourceandsummit.com currently doesn't support digit after ' or _ or .
         replace(/!\)/g,')').
         replace(/\b([arv]\/)\./ig,'<sp>$1</sp>'). // versicle and response symbols
         replace(/\|([^()|]*[^\s()])(\s)?\(/g,function(m,translation,whitespace) {
@@ -3118,7 +3138,7 @@ $(function(){
     if(e && typeof(e.preventDefault)=="function"){
       e.preventDefault();
     }
-    $('#pdfForm').attr('action','https://apps.illuminarepublications.com/gregorio/#' + encodeURI(result)).submit();
+    $('#pdfForm').attr('action','https://editor.sourceandsummit.com/legacy/#' + encodeURI(result)).submit();
   });
   $('#lnkPdfDirect').click(function(e){
     var gabcs=getAllGabc();

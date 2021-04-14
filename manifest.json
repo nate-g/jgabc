@@ -1,7 +1,7 @@
 ﻿{
   "name": "GABC Transcription Tool",
   "short_name": "GABC Tool",
-  "version": "2.2.52",
+  "version": "2.3.0",
   "manifest_version": 2,
   "description": "Tools for aiding GABC transcription",
   "icons": {
@@ -17,5 +17,5 @@
   "permissions": [
     "storage"
   ],
-  "content_security_policy": "script-src 'self' https://*.illuminarepublications.com 'unsafe-eval'; object-src 'self'"
+  "content_security_policy": "script-src 'self' https://*.sourceandsummit.com 'unsafe-eval'; object-src 'self'"
 }

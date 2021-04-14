@@ -105,17 +105,19 @@ function makeExsurgeChantContext() {
   var ctxt = new exsurge.ChantContext(exsurge.TextMeasuringStrategy.Canvas);
   ctxt.condenseLineAmount = 1;
   ctxt.setGlyphScaling(1/16);
-  ctxt.setFont("'Crimson Text', serif", 19.2);
-  ctxt.dropCapTextSize = 64;
-  ctxt.annotationTextSize = 12.8;
+  ctxt.setFont("'Crimson Text', serif", 19.2 / 0.9);
+  ctxt.spaceBetweenSystems = 0;
+  ctxt.textStyles.dropCap.size = 64;
+  ctxt.textStyles.annotation.size = 12.8;
   ctxt.minLyricWordSpacing *= 0.7;
   ctxt.accidentalSpaceMultiplier = 1.5;
   
   ctxt.specialCharProperties['font-family'] = "'Versiculum'";
   ctxt.specialCharProperties['font-variant'] = 'normal';
-  ctxt.specialCharProperties['font-size'] = (1.2 * ctxt.lyricTextSize) + 'px';
+  // ctxt.specialCharProperties['font-size'] = (ctxt.lyricTextSize) + 'px';
   ctxt.specialCharProperties['font-weight'] = '400';
-  ctxt.specialCharText = function(char) { return char.toLowerCase(); };
+  const defaultSpecialCharText = ctxt.specialCharText;
+  ctxt.specialCharText = function(char) { return defaultSpecialCharText(char).toLowerCase(); };
   ctxt.setRubricColor('#d00');
   return ctxt;
 }
@@ -916,7 +918,7 @@ if(typeof window=='object') (function(window) {
         } else if (
           getIsUsingSolesmesLengths() &&
           note.ictus && note.ictus.glyphCode === "VerticalEpisemaBelow" &&
-          note.glyphVisualizer.glyphCode === "PodatusLower" && 
+          (note.glyphVisualizer.glyphCode === "PodatusLower" || note.glyphVisualizer.glyphCode === "BeginningAscLiquescent") && 
           (note.pitch.toInt() - prevNote.pitch.toInt() > 0) && 
           (nextNote.pitch.toInt() - note.pitch.toInt() > 0)
         ) {

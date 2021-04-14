@@ -308,6 +308,22 @@ function getCantica() {
   r.push("Canticum Judith");
   r.push("Canticum Tobiae");
   r.push("Philippians Canticle");
+  r.push("Canticum Isaiæ 33, 2-10");
+  r.push("Canticum Isaiæ 33, 13-18");
+  r.push("Canticum Ecclesiasticæ 36, 14-19");
+  r.push("Symbolum Athanasianum");
+  r.push("Canticum Isaiæ 40, 10-17");
+  r.push("Canticum Isaiæ 42, 10-16");
+  r.push("Canticum Isaiæ 49, 7-13");
+  r.push("Canticum Isaiæ 63, 1-5");
+  r.push("Canticum Oseæ 6, 1-6");
+  r.push("Canticum Sophoniæ 3, 8-13");
+  r.push("Canticum Habacuc 3, 1-6");
+  r.push("Canticum Habacuc 3, 7-12");
+  r.push("Canticum Habacuc 3, 13-19");
+  r.push("Canticum Jeremiæ 14, 17-21");
+  r.push("Canticum Threni 5, 1-7, 15-17, 19-21");
+  r.push("Canticum Ezechielis 36, 24-28");
   return r;
 }
 
@@ -596,10 +612,16 @@ function annotationTextFormat(text,psalmNum,tone,ending){
   return text.format({"psalm":psalmNum,
                        "tone":tone});
 }
-function versesFilename(format,psalmNum,tone,ending,solemn){
-  var tone = tone.replace(/\./g,'');
-  var match = tone.match(/\d+/);
-  if(match)tone=match[0];
+function versesFilename(format,psalmNum,tone,ending,solemn,includeExtra){
+  tone = tone.replace(/\./g,'');
+  if (includeExtra) {
+    tone = tone.trim().replace(/\s+/g,'-');
+  } else {
+    var match = tone.match(/\d+/);
+    if(match)tone=match[0];
+  }
+  if (ending && /\D$/.test(tone)) tone += '-';
+  if (solemn && /^\D/.test(tone)) tone = '-' + tone;
   tone = (solemn?"solemn":"") + tone + (ending? ending.replace(/\*/,"star") : '');
   return format && ((format.versesName) ? format.versesName.format(
     {"psalm":psalmNum,
@@ -619,7 +641,7 @@ function downloadAll(e){
   var clef;
   var addPsalm=function(psalmNum,text,t,ending,gSyl,shortMediant,solemn){
     var texts = updateEditor(true,text,gSyl,shortMediant,clef);
-    var filename = versesFilename(bi_formats[useFormat],psalmNum,t,ending,solemn);
+    var filename = versesFilename(bi_formats[useFormat],psalmNum,t,ending,solemn, true);
     var header = getHeader(localStorage.psalmHeader||'');
     header["initial-style"] = '0';
     header["name"] = filename.replace(/\.[^.]*$/,'');
@@ -777,7 +799,7 @@ $(function() {
   var cbEnglishChanged = function(){
     selLang = cbEnglish.checked? 'english' : 'latin';
     localStorage.selLang = selLang;
-    getSyllables = cbEnglish.checked? _getEnSyllables : _getSyllables;
+    getSyllables = cbEnglish.checked? _getEnSyllables : _getLaSyllables;
     last_syl = null;
     updateText();
   };
@@ -858,7 +880,7 @@ $(function() {
     if(e && typeof(e.preventDefault)=="function"){
       e.preventDefault();
     }
-    $('#pdfForm').attr('action','https://apps.illuminarepublications.com/gregorio/#' + encodeURI(result)).submit();
+    $('#pdfForm').attr('action','https://editor.sourceandsummit.com/legacy/#' + encodeURI(result)).submit();
   });
   $('#lnkPdfDirect').click(function(e){
     var gabcs=[gabcReplace(getGabc())];
@@ -892,11 +914,7 @@ $(function() {
   if(hash.noeditor) {
     $('#chant-parent2').addClass('noeditor');
   }
-  var ctxt = new exsurge.ChantContext(exsurge.TextMeasuringStrategy.Canvas);
-  ctxt.lyricTextFont = "'Crimson Text', serif";
-  ctxt.lyricTextSize *= 1.2;
-  ctxt.dropCapTextFont = ctxt.lyricTextFont;
-  ctxt.annotationTextFont = ctxt.lyricTextFont;
+  var ctxt = makeExsurgeChantContext();
   var chantContainer = $('#chant-preview')[0];
   var score;
   $('#txtGabc').keyup(function(){

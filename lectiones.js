@@ -1689,6 +1689,170 @@ var lectiones = {
  "Dec11": [
   "1 Petri 5: 1-4, 10-11",
   "Matthæus 16: 13-19"
- ]
+ ],
+ "Pasch3w": [
+  "Genesis 49: 22-26",
+  "Lucas 3: 21-23"
+ ],
+ "Oct27": [
+  "1 Ad Corinthios 4: 9-14",
+  "Joannes 15: 1-7"
+ ],
+ "Oct31": [
+  "Apocalypsis 5: 6-12",
+  "Lucas 6: 17-23"
+ ],
+ "Nov29a": [
+   "Ecclesiasticus 44: 25-27; 45: 2-4, 6-9",
+   "Joannes 1: 35-51"
+ ],
+ "Jan5a": [
+  "Ad Galatas 4: 1-7",
+  "Matthæus 2: 19-23"
+],
+  "May3": [
+    "Ad Philippenses 2: 5-11",
+    "Joannes 3: 1-15"
+  ],
+  May6: [
+    "Sapientia 5: 1-5",
+    "Matthæus 20: 20-23"
+  ],
+  May8: [
+    "Apocalypsis 1: 1-15",
+    "Matthæus 18: 1-10"
+  ],
+  Jul3a: [
+    "1 Petri 5: 1-4, 10-11",
+    "Matthæus 16: 13-19"
+  ],
+  Jul6: [
+    "Ecclesiasticus 44: 10-15",
+    "Matthæus 14: 22-33"
+  ],
+  Jul13: [
+    "1 Petri 5: 1-4, 10-11",
+    "Matthæus 16: 13-19"
+  ],
+  Jul21a: [
+    "1 Ad Corinthios 7: 25-34",
+    "Matthæus 25: 1-13"
+  ],
+  Jul24: [
+    "Ecclesiasticus 44: 25-27; 45: 2-4, 6-9",
+    "John 15: 12-16"
+  ],
+  Aug1a: [
+    "Actus Apostolorum 12: 1-11",
+    "Matthæus 16: 13-19"
+  ],
+  Aug3: [
+    "Actus Apostolorum 6: 8-10; 7: 54-59",
+    "Matthæus 23: 34-39"
+  ],
+  Aug8a: [
+    "1 Ad Thessalonicenses 2: 13-16",
+    "Marcus 16: 15-17"  
+  ],
+  Dec20: [
+    "Ecclesiasticus 44: 25-27; 45: 2-4, 6-9",
+    "Joannes 15: 12-16"
+ ],
+ Jan19: [
+  "Ad Hebræos 10: 32-38",
+  "Matthæus 24: 3-13"
+  ],
+  Feb18a: [
+  "Isaias 55: 1-3, 6-9",
+  "Matthæus 13: 44-52"
+  ],
+  May14: [
+  "Sapientia 5: 1-5",
+  "Joannes 15: 1-7"
+  ],
+  Jun2: [
+  "Ad Romanos 8: 18-23",
+  "Lucas 21: 9-19"
+  ],
+  Jun2Pasch: [
+  "Ad Romanos 8: 18-23",
+  "Joannes 15: 5-11"
+  ],
+  Jun9: [
+  "Sapientia 5: 16-20",
+  "Matthæus 11: 25-30"
+  ],
+  Jun9Pasch: [
+  "1 Petri 1: 3-7",
+  "Matthæus 11: 25-30"
+  ],
+  Jun15: [
+  "Sapientia 3: 1-8",
+  "Lucas 10: 16-18"
+  ],
+  Jun15Pasch: [
+  "1 Petri 1: 3-7",
+  "Lucas 10: 16-18"
+  ],
+  Jul4: [
+  "Actus Apostolorum 5: 12-16",
+  "Matthæus 19: 27-29"
+  ],
+  Jul30: [
+  "2 Ad Corinthios 6: 4-11",
+  "Matthæus 5: 1-12"
+  ],
+  Aug26: [
+  "1 Petri 5: 1-4, 10-11",
+  "Matthæus 16: 13-19"
+  ],
+  Sep1: [
+  "Ecclesiasticus 31: 8-11",
+  "Lucas 12: 35-40"
+  ],
+  Sep9a: [
+  "Isaias 58: 6-10",
+  "Lucas 10: 29-37"
+  ],
+  Sep20: [
+  "Sapientia 5: 16-20",
+  "Lucas 6: 17-23"
+  ],
+  Sep26a: [
+  "2 Ad Corinthios 12: 11-15",
+  "Lucas 6: 17-23"
+  ],
+  Oct1: [
+  "Ecclesiasticus 44: 16-27; 45: 3-20",
+  "Matthæus 25: 14-23"
+  ],
+  Oct21: [
+  "Ecclesiasticus 45: 1-6",
+  "Matthæus 19: 27-29"
+  ],
+  Oct25: [
+  "2 Ad Corinthios 6: 4-11",
+  "Lucas 11: 47-51"
+  ],
+  Oct25a: [
+  "Jacobi 5: 7-8, 11 et 16-18",
+  "Joannes 15: 1-7"
+  ],
+  Oct26: [
+  "1 Petri 5: 1-4, 10-11",
+  "Matthæus 16: 13-19"
+  ],
+  Nov13a: [
+  "1 Ad Corinthios 1: 26-31",
+  "Matthæus 11: 25-30"
+  ], 
+  May25: [
+    "1 Petri 5: 1-4, 10-11",
+    "Matthæus 16: 13-19"
+   ],
+   Feb23or24: [
+    "Ecclesiasticus 44: 25-27; 45: 2-4, 6-9",
+    "Joannes 15: 12-16"
+   ]
 };
 var mapTitleLectionis = {}
